@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FizzBuzz Accumulator - Lectie Programare</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+            color: #1a1a1a;
+            scroll-behavior: smooth;
+        }
+
+        .full-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .problem-statement {
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        h1 { color: #2c3e50; margin-bottom: 10px; }
+        
+        .rules {
+            display: inline-block;
+            text-align: left;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid #3498db;
+        }
+
+        /* Containerul de Animatie */
+        .animation-box {
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            min-width: 300px;
+        }
+
+        .current-num-label {
+            font-size: 1.2rem;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        #current-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        #score-display {
+            font-size: 5rem;
+            font-weight: 800;
+            font-family: 'Fira Code', monospace;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+
+        .update-tag {
+            font-size: 1.5rem;
+            font-weight: bold;
+            height: 35px;
+            opacity: 0;
+        }
+
+        /* Animații */
+        .jump { animation: jumpAnim 0.5s ease; }
+        @keyframes jumpAnim {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .fade-up { animation: fadeUp 0.8s forwards; }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(10px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-15px); }
+        }
+
+        /* Sectiunea de Cod */
+        .code-section {
+            min-height: 100vh;
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        pre {
+            background: #1e2127;
+            padding: 30px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            max-width: 90%;
+            border: 1px solid #3e4451;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: left;
+        }
+
+        .scroll-hint {
+            margin-top: 30px;
+            font-weight: bold;
+            color: #3498db;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="full-page">
+        <div class="problem-statement">
+            <h1>FizzBuzz Accumulator</h1>
+            <p>Urmărește cum se schimbă variabila <code>scor</code> în funcție de numărul verificat!</p>
+            <div class="rules">
+                • Dacă numărul se împarte la <b>3</b>: Scor <b>+3</b> 🔵<br>
+                • Dacă numărul se împarte la <b>5</b>: Scor <b>+5</b> 🔵<br>
+                • Dacă se împarte la <b>amândouă (15)</b>: Scor <b>-10</b> 🔴
+            </div>
+        </div>
+
+        <div class="animation-box">
+            <div class="current-num-label">Verificăm numărul:</div>
+            <div id="current-number">1</div>
+            
+            <div id="update-info" class="update-tag"></div>
+            <div id="score-display">0</div>
+            <div style="font-size: 0.9rem; color: #95a5a6;">SCOR TOTAL</div>
+        </div>
+
+        <a href="#code" class="scroll-hint">Vezi codul C++ ↓</a>
+    </section>
+
+    <section id="code" class="code-section">
+        <h2 style="color: #61afef; margin-bottom: 30px;">Soluția în C++</h2>
+        <pre>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    int scor = 0; // Punctul de start
+
+    for (int i = 1; i <= 20; i++) {
+        
+        if (i % 3 == 0 && i % 5 == 0) {
+            scor = scor - 10; // Penalizare FizzBuzz
+        } 
+        else if (i % 3 == 0) {
+            scor = scor + 3;  // Bonus Fizz
+        } 
+        else if (i % 5 == 0) {
+            scor = scor + 5;  // Bonus Buzz
+        }
+
+        // Afișăm scorul la fiecare pas
+        cout << "Numar: " << i << " | Scor: " << scor << endl;
+    }
+
+    return 0;
+}
+        </pre>
+    </section>
+
+    <script>
+        const scoreDisplay = document.getElementById('score-display');
+        const numDisplay = document.getElementById('current-number');
+        const updateInfo = document.getElementById('update-info');
+        
+        let currentScore = 0;
+        let i = 1;
+
+        function step() {
+            let change = 0;
+            let label = "";
+            let color = "#2c3e50";
+
+            // Logica algoritmului
+            if (i % 3 === 0 && i % 5 === 0) {
+                change = -10;
+                label = "-10 (FizzBuzz!)";
+                color = "#e74c3c"; // Rosu pentru scadere
+            } else if (i % 3 === 0) {
+                change = 3;
+                label = "+3 (Fizz)";
+                color = "#3498db"; // Albastru pentru adunare
+            } else if (i % 5 === 0) {
+                change = 5;
+                label = "+5 (Buzz)";
+                color = "#3498db"; // Albastru pentru adunare
+            }
+
+            // Update Numar
+            numDisplay.textContent = i;
+
+            // Update Scor daca exista schimbare
+            if (change !== 0) {
+                currentScore += change;
+                scoreDisplay.textContent = currentScore;
+                scoreDisplay.style.color = color;
+                
+                updateInfo.textContent = label;
+                updateInfo.style.color = color;
+
+                // Resetare animatii
+                updateInfo.classList.remove('fade-up');
+                scoreDisplay.classList.remove('jump');
+                void updateInfo.offsetWidth; 
+                updateInfo.classList.add('fade-up');
+                scoreDisplay.classList.add('jump');
+            } else {
+                scoreDisplay.style.color = "#bdc3c7";
+                updateInfo.textContent = "";
+            }
+
+            i++;
+            if (i > 20) {
+                i = 1;
+                currentScore = 0;
+                // Mică pauză la final de ciclu
+                setTimeout(() => {}, 1000);
+            }
+        }
+
+        // Viteza animatiei (1.2 secunde per numar)
+        setInterval(step, 1200);
+    </script>
+</body>
+</html>

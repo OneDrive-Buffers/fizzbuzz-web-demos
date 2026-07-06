@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FizzBuzz Clasic - Lectie Programare</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            color: #1a1a1a;
+            scroll-behavior: smooth;
+        }
+
+        .full-page {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .problem-statement {
+            max-width: 800px;
+            margin-bottom: 20px;
+        }
+
+        h1 { color: #2c3e50; }
+        
+        .rules {
+            display: inline-block;
+            text-align: left;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border-left: 5px solid #2ecc71;
+        }
+
+        /* Container Animatie */
+        .display-box {
+            background: #2c3e50;
+            padding: 50px;
+            border-radius: 20px;
+            margin-top: 30px;
+            min-width: 350px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .num-circle {
+            font-size: 1.5rem;
+            color: #bdc3c7;
+            margin-bottom: 10px;
+        }
+
+        #fizzbuzz-output {
+            font-size: 4.5rem;
+            font-weight: 800;
+            font-family: 'Fira Code', monospace;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Culori specifice */
+        .color-fizz { color: #3498db; }
+        .color-buzz { color: #f1c40f; }
+        .color-fizzbuzz { color: #e67e22; }
+        .color-none { color: #ecf0f1; }
+
+        /* Animații */
+        .pop-in { animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Sectiunea de Cod */
+        .code-section {
+            min-height: 100vh;
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        pre {
+            background: #1e2127;
+            padding: 30px;
+            border-radius: 12px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            max-width: 90%;
+            border: 1px solid #3e4451;
+            text-align: left;
+        }
+
+        .scroll-hint {
+            margin-top: 30px;
+            font-weight: bold;
+            color: #2ecc71;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+    <section class="full-page">
+        <div class="problem-statement">
+            <h1>FizzBuzz Clasic</h1>
+            <p>Problema clasică de filtru pentru programatori. Spunem cuvinte magice în loc de numere!</p>
+            <div class="rules">
+                • Se împarte la <b>3</b>? Spunem <b class="color-fizz">Fizz</b> 🔵<br>
+                • Se împarte la <b>5</b>? Spunem <b class="color-buzz">Buzz</b> 🟡<br>
+                • Se împarte la <b>amândouă (15)</b>? Spunem <b class="color-fizzbuzz">FizzBuzz</b> 🟠
+            </div>
+        </div>
+
+        <div class="display-box">
+            <div class="num-circle">Numărul curent: <span id="current-num-val">1</span></div>
+            <div id="fizzbuzz-output" class="color-none">1</div>
+        </div>
+
+        <a href="#code" class="scroll-hint">Vezi codul C++ ↓</a>
+    </section>
+
+    <section id="code" class="code-section">
+        <h2 style="color: #98c379; margin-bottom: 30px;">Codul Sursă C++</h2>
+        <pre>
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    // Parcurgem numerele de la 1 la 20
+    for (int i = 1; i <= 20; i++) {
+
+        if (i % 3 == 0 && i % 5 == 0) {
+            cout << "FizzBuzz" << endl;
+        } 
+        else if (i % 3 == 0) {
+            cout << "Fizz" << endl;
+        } 
+        else if (i % 5 == 0) {
+            cout << "Buzz" << endl;
+        } 
+        else {
+            cout << i << endl;
+        }
+    }
+
+    return 0;
+}
+        </pre>
+    </section>
+
+    <script>
+        const output = document.getElementById('fizzbuzz-output');
+        const numVal = document.getElementById('current-num-val');
+        let i = 1;
+
+        function runFizzBuzz() {
+            let text = i;
+            let className = "color-none";
+
+            if (i % 3 === 0 && i % 5 === 0) {
+                text = "FizzBuzz";
+                className = "color-fizzbuzz";
+            } else if (i % 3 === 0) {
+                text = "Fizz";
+                className = "color-fizz";
+            } else if (i % 5 === 0) {
+                text = "Buzz";
+                className = "color-buzz";
+            }
+
+            // Update UI
+            numVal.textContent = i;
+            output.textContent = text;
+            output.className = className;
+
+            // Trigger animation
+            output.classList.remove('pop-in');
+            void output.offsetWidth; 
+            output.classList.add('pop-in');
+
+            i++;
+            if (i > 20) i = 1;
+        }
+
+        setInterval(runFizzBuzz, 1000);
+    </script>
+</body>
+</html>
